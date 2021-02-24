@@ -1,5 +1,4 @@
 import { start } from "https://deno.land/x/denops_std@v0.2/mod.ts";
-
 const brackets: { [name: string]: string} = {
     '(': ')',
     '{': '}',
@@ -75,16 +74,47 @@ start(async (vim) => {
             }
 
             return false
+        },
+
+        async kakkonanInputEnter(): Promise<boolean> {
+            const corsorStr = await vim.call('getline', '.');
+            if (typeof corsorStr !== "string") {
+                throw new Error(`'corsorStr' attribute of 'kakkonanCompletion' in must be a string`)
+            }
+
+            const corsorLine = await vim.call('line', '.');
+            if (typeof corsorLine !== "number") {
+                throw new Error(`'corsorLine' attribute of 'kakkonanCompletion' in must be a number`)
+            }
+
+            const corsorCol = await vim.call('col', '.');
+            if (typeof corsorCol !== "number") {
+                throw new Error(`'corsorCol' attribute of 'kakkonanCompletion' in must be a number`)
+            }
+
+            const corsorRight = corsorStr.substr(corsorCol - 1, 1);
+            const corsorChar = corsorStr.substr(corsorCol - 2, 1);
+
+            if (brackets[corsorChar] && brackets[corsorChar] == corsorRight) {
+                return true
+            }
+
+            return false
         }
     })
 
+    // completion brackets and some quote
     vim.execute(`inoremap <expr> ( denops#request("kakkonan", "kakkonanCompletion", ['(']) . "\<left>"`)
     vim.execute(`inoremap <expr> { denops#request("kakkonan", "kakkonanCompletion", ['{']) . "\<left>"`)
     vim.execute(`inoremap <expr> [ denops#request("kakkonan", "kakkonanCompletion", ['[']) . "\<left>"`)
     vim.execute(`inoremap <expr> " denops#request("kakkonan", "kakkonanCompletion", ['"']) != "" ? '""' . "\<left>" : "\<right>"`)
     vim.execute(`inoremap <expr> ' denops#request("kakkonan", "kakkonanCompletion", ["'"]) != "" ? "''" . "\<left>" : "\<right>"`)
     vim.execute(`inoremap <expr> ${backQuote} denops#request("kakkonan", "kakkonanCompletion", ['${backQuote}']) != "" ? '${backQuote + backQuote}' . "\<left>" : "\<right>"`)
+    // escape some brackets
     vim.execute(`inoremap <expr> ) denops#request("kakkonan", "kakkonanEscapeBrackets", [')']) == v:false ? ")" : "\<right>"`)
     vim.execute(`inoremap <expr> } denops#request("kakkonan", "kakkonanEscapeBrackets", ['}']) == v:false ? "}" : "\<right>"`)
     vim.execute(`inoremap <expr> ] denops#request("kakkonan", "kakkonanEscapeBrackets", [']']) == v:false ? "]" : "\<right>"`)
+
+    // input enter
+    vim.execute(`inoremap <expr> <CR> denops#request("kakkonan", "kakkonanInputEnter", []) == v:false ? "\<CR>" : "\<CR>\<C-o>\<S-o>"`)
 })
