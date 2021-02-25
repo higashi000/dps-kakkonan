@@ -1,4 +1,5 @@
 import { start } from "https://deno.land/x/denops_std@v0.2/mod.ts";
+
 const brackets: { [name: string]: string} = {
     '(': ')',
     '{': '}',
@@ -16,7 +17,6 @@ start(async (vim) => {
             if (typeof inputBrackets !== "string") {
                 throw new Error(`'inputBrackets' attribute of 'kakkonanCompletion' in must be a string`)
             }
-
             const corsorStr = await vim.call('getline', '.');
             if (typeof corsorStr !== "string") {
                 throw new Error(`'corsorStr' attribute of 'kakkonanCompletion' in must be a string`)
@@ -76,7 +76,7 @@ start(async (vim) => {
             return false
         },
 
-        async kakkonanInputEnter(): Promise<boolean> {
+        async kakkonanBackSpaceEnter(): Promise<boolean> {
             const corsorStr = await vim.call('getline', '.');
             if (typeof corsorStr !== "string") {
                 throw new Error(`'corsorStr' attribute of 'kakkonanCompletion' in must be a string`)
@@ -100,7 +100,7 @@ start(async (vim) => {
             }
 
             return false
-        }
+        },
     })
 
     // completion brackets and some quote
@@ -116,5 +116,8 @@ start(async (vim) => {
     vim.execute(`inoremap <expr> ] denops#request("kakkonan", "kakkonanEscapeBrackets", [']']) == v:false ? "]" : "\<right>"`)
 
     // input enter
-    vim.execute(`inoremap <expr> <CR> denops#request("kakkonan", "kakkonanInputEnter", []) == v:false ? "\<CR>" : "\<CR>\<C-o>\<S-o>"`)
+    vim.execute(`inoremap <expr> <CR> denops#request("kakkonan", "kakkonanBackSpaceEnter", []) == v:false ? "\<CR>" : "\<CR>\<C-o>\<S-o>"`)
+
+    // input backspace
+    vim.execute(`inoremap <expr> <BS> denops#request("kakkonan", "kakkonanBackSpaceEnter", []) == v:false ? "\<BS>" : "\<BS>\<right>\<BS>"`)
 })
