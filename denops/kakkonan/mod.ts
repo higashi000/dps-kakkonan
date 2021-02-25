@@ -17,24 +17,24 @@ start(async (vim) => {
             throw new Error(`'diff' attribute of 'getLineChar' in must be a number`)
         }
 
-        const corsorStr = await vim.call('getline', '.');
-        if (typeof corsorStr !== "string") {
-            throw new Error(`'corsorStr' attribute of 'kakkonanCompletion' in must be a string`)
+        const cursorStr = await vim.call('getline', '.');
+        if (typeof cursorStr !== "string") {
+            throw new Error(`'cursorStr' attribute of 'kakkonanCompletion' in must be a string`)
         }
 
-        const corsorLine = await vim.call('line', '.');
-        if (typeof corsorLine !== "number") {
-            throw new Error(`'corsorLine' attribute of 'kakkonanCompletion' in must be a number`)
+        const cursorLine = await vim.call('line', '.');
+        if (typeof cursorLine !== "number") {
+            throw new Error(`'cursorLine' attribute of 'kakkonanCompletion' in must be a number`)
         }
 
-        const corsorCol = await vim.call('col', '.');
-        if (typeof corsorCol !== "number") {
-            throw new Error(`'corsorCol' attribute of 'kakkonanCompletion' in must be a number`)
+        const cursorCol = await vim.call('col', '.');
+        if (typeof cursorCol !== "number") {
+            throw new Error(`'cursorCol' attribute of 'kakkonanCompletion' in must be a number`)
         }
 
-        const corsorChar = corsorStr.substr(corsorCol + diff, 1);
+        const cursorChar = cursorStr.substr(cursorCol + diff, 1);
 
-        return corsorChar;
+        return cursorChar;
     }
 
     vim.register({
@@ -43,10 +43,10 @@ start(async (vim) => {
                 throw new Error(`'inputBrackets' attribute of 'kakkonanCompletion' in must be a string`)
             }
 
-            const corsorChar = await getLineChar(-1);
+            const cursorChar = await getLineChar(-1);
 
             if (inputBrackets == '"' || inputBrackets == "'" || inputBrackets == "`") {
-                if (corsorChar == inputBrackets) {
+                if (cursorChar == inputBrackets) {
                     return "";
                 }
             }
@@ -63,9 +63,9 @@ start(async (vim) => {
                 throw new Error(`'inputBrackets' attribute of 'kakkonanEscapeBrackets' in must be a string`);
             }
 
-            const corsorChar = await getLineChar(-1);
+            const cursorChar = await getLineChar(-1);
 
-            if (corsorChar == inputBracket) {
+            if (cursorChar == inputBracket) {
                 return true;
             }
 
@@ -73,10 +73,10 @@ start(async (vim) => {
         },
 
         async kakkonanBackSpaceEnter(): Promise<boolean> {
-            const corsorRight =  await getLineChar(-1);
-            const corsorChar = await getLineChar(-2);
+            const cursorRight =  await getLineChar(-1);
+            const cursorChar = await getLineChar(-2);
 
-            if (brackets[corsorChar] && brackets[corsorChar] == corsorRight) {
+            if (brackets[cursorChar] && brackets[cursorChar] == cursorRight) {
                 return true;
             }
 
@@ -101,4 +101,6 @@ start(async (vim) => {
 
     // input backspace
     vim.execute(`inoremap <expr> <BS> denops#request("kakkonan", "kakkonanBackSpaceEnter", []) == v:false ? "\<BS>" : "\<BS>\<right>\<BS>"`);
+
+    console.log('dps-kakkonan has loaded');
 })
