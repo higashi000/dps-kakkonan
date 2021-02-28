@@ -13,24 +13,9 @@ const backQuote = '`';
 
 start(async (vim) => {
     const getLineChar = async (diff: number): Promise<string> => {
-        if (typeof diff !== "number") {
-            throw new Error(`'diff' attribute of 'getLineChar' in must be a number`)
-        }
+        const cursorStr = await vim.call('getline', '.') as string;
 
-        const cursorStr = await vim.call('getline', '.');
-        if (typeof cursorStr !== "string") {
-            throw new Error(`'cursorStr' attribute of 'kakkonanCompletion' in must be a string`)
-        }
-
-        const cursorLine = await vim.call('line', '.');
-        if (typeof cursorLine !== "number") {
-            throw new Error(`'cursorLine' attribute of 'kakkonanCompletion' in must be a number`)
-        }
-
-        const cursorCol = await vim.call('col', '.');
-        if (typeof cursorCol !== "number") {
-            throw new Error(`'cursorCol' attribute of 'kakkonanCompletion' in must be a number`)
-        }
+        const cursorCol = await vim.call('col', '.') as number;
 
         const cursorChar = cursorStr.substr(cursorCol + diff, 1);
 
