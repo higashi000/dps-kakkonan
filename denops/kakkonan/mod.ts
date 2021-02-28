@@ -67,6 +67,40 @@ start(async (vim) => {
 
             return false;
         },
+
+        async kakkonanSurroundBrackets(inputBracket: unknown): Promise<void> {
+            if (typeof inputBracket !== "string") {
+                throw new Error(`'inputBrackets' attribute of 'kakkonanSurroundBrackets' in must be a string`)
+            }
+
+            if (!brackets[inputBracket]) {
+                throw new Error(`Please hand off ['(', '[', '{', '"', ''', '${backQuote}']`);
+            }
+
+            await vim.execute('normal `<');
+
+            const startLineNo = await vim.call("line", ".") as number;
+            const startColNo = await vim.call("col", ".") as number;
+
+            await vim.execute('normal `>');
+
+            const finishLineNo = await vim.call("line", ".") as number;
+            const finishColNo = await vim.call("col", ".") as number;
+
+            const line = await vim.call("getline", ".") as string;
+
+            if (startLineNo != finishLineNo) {
+                return;
+            }
+
+            const surroundText =
+                line.slice(0, startColNo - 1) + inputBracket + line.slice(startColNo - 1, finishColNo) +
+                brackets[inputBracket] + line.slice(finishColNo, line.length);
+
+            await vim.call("setline", startLineNo, surroundText);
+
+            return;
+        }
     })
 
     vim.execute(`
@@ -84,6 +118,8 @@ start(async (vim) => {
         inoremap <expr> <CR> denops#request("kakkonan", "kakkonanBackSpaceEnter", []) == v:false ? "\<CR>" : "\<CR>\<C-o>\<S-o>"
 
         inoremap <expr> <BS> denops#request("kakkonan", "kakkonanBackSpaceEnter", []) == v:false ? "\<BS>" : "\<BS>\<right>\<BS>"
+
+        command! -range -nargs=1 KakkonanSurround :call denops#request("kakkonan", "kakkonanSurroundBrackets", [<f-args>])
     `);
 
     console.log('dps-kakkonan has loaded');
