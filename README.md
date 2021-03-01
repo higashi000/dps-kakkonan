@@ -9,5 +9,10 @@ call dein#add('higashi000/dps-kakkonan')
 ```
 
 # Usage
+## Completion Brackets
 Please input some brackets in insert mode.<br>
 
+## Surround text to brackets
+Select text in visual mode.<br>
+After, please execute `'<,'>KakkonanSurround $brackets`.<br>
+[![Image from Gyazo](https://i.gyazo.com/5a26d3728eab1dadf90b6c15a6aea632.gif)](https://gyazo.com/5a26d3728eab1dadf90b6c15a6aea632)
