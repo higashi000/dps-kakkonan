@@ -9,6 +9,12 @@ const brackets: { [name: string]: string} = {
     '`': '`',
 }
 
+const quotes: {[name: string]: string} = {
+    '"': '"',
+    "'": "'",
+    '`': '`',
+}
+
 const backQuote = '`';
 
 start(async (vim) => {
@@ -112,10 +118,10 @@ start(async (vim) => {
             }
             
             let cnt: number = 0;
+            let quoteCnt: number = 0;
 
             let lineNo = await vim.call("line", ".") as number;
             let colNo = await vim.call("col", ".") as number;
-
 
             const line = await vim.call("getline", lineNo) as string;
 
@@ -126,24 +132,31 @@ start(async (vim) => {
             }
 
             for (let i = colNo - 1; i < line.length; i++) { 
-                if (line[i] === corsorChar) {
-                    cnt++;
-                } else if (line[i] === brackets[corsorChar]) {
-                    cnt--;
+                if (!quotes[corsorChar]) {
+                    if (line[i] === corsorChar) {
+                        cnt++;
+                    } else if (line[i] === brackets[corsorChar]) {
+                        cnt--;
+                    }
+                } else {
+                    if (line[i] === corsorChar) {
+                        quoteCnt++;
+                    }
                 }
 
-                if (cnt === 0) {
+                if ((!quotes[corsorChar] && cnt === 0) || (quoteCnt === 2 && quotes[corsorChar])) {
                     let updateLine = line.slice(0, colNo - 1) + inputBracket +
                         line.slice(colNo, i) + brackets[inputBracket] +
                         line.slice(i + 1, line.length);
 
                     await vim.call("setline", lineNo, updateLine);
+                    break;
                 }
             }
 
             return;
         }
-    })
+    });
 
     vim.execute(`
         inoremap <expr> ( denops#request("kakkonan", "kakkonanCompletion", ['(']) . "\<left>"
@@ -163,7 +176,7 @@ start(async (vim) => {
 
         command! -range -nargs=1 KakkonanSurround :call denops#request("kakkonan", "kakkonanSurroundBrackets", [<f-args>])
 
-        noremap <expr> ( denops#request("kakkonan", "kakkonanReplaceBrackets", ['('])
+        command! -range -nargs=1 KakkonanReplace :call denops#request("kakkonan", "kakkonanReplaceBrackets", [<f-args>])
     `);
 
     console.log('dps-kakkonan has loaded');
