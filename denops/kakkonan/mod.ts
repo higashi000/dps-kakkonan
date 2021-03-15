@@ -123,37 +123,44 @@ start(async (vim) => {
             let lineNo = await vim.call("line", ".") as number;
             let colNo = await vim.call("col", ".") as number;
 
-            const line = await vim.call("getline", lineNo) as string;
-
-            const corsorChar = line[colNo - 1];
+            const tmp = await vim.call("getline", lineNo) as string;
+            const corsorChar = tmp[colNo - 1];
 
             if (!brackets[corsorChar]) {
                 throw new Error(`Please hand off ['(', '[', '{', '"', ''', '${backQuote}']`);
             }
 
-            for (let i = colNo - 1; i < line.length; i++) { 
-                if (!quotes[corsorChar]) {
-                    if (line[i] === corsorChar) {
-                        cnt++;
-                    } else if (line[i] === brackets[corsorChar]) {
-                        cnt--;
+
+            let finishFlg: boolean = false;
+
+            while (!finishFlg) {
+                const line = await vim.call("getline", lineNo) as string;
+                for (let i = colNo - 1; i < line.length; i++) { 
+                    if (!quotes[corsorChar]) {
+                        if (line[i] === corsorChar) {
+                            cnt++;
+                        } else if (line[i] === brackets[corsorChar]) {
+                            cnt--;
+                        }
+                    } else {
+                        if (line[i] === corsorChar) {
+                            quoteCnt++;
+                        }
                     }
-                } else {
-                    if (line[i] === corsorChar) {
-                        quoteCnt++;
+
+                    if ((!quotes[corsorChar] && cnt === 0) || (quoteCnt === 2 && quotes[corsorChar])) {
+                        let updateLine = line.slice(0, colNo - 1) + inputBracket +
+                            line.slice(colNo, i) + brackets[inputBracket] +
+                            line.slice(i + 1, line.length);
+
+                        await vim.call("setline", lineNo, updateLine);
+                        finishFlg = true;
+                        break;
                     }
                 }
 
-                if ((!quotes[corsorChar] && cnt === 0) || (quoteCnt === 2 && quotes[corsorChar])) {
-                    let updateLine = line.slice(0, colNo - 1) + inputBracket +
-                        line.slice(colNo, i) + brackets[inputBracket] +
-                        line.slice(i + 1, line.length);
-
-                    await vim.call("setline", lineNo, updateLine);
-                    break;
-                }
+                lineNo++;
             }
-
             return;
         }
     });
