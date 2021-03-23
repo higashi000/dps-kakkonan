@@ -96,6 +96,14 @@ start(async (vim) => {
             const line = await vim.call("getline", ".") as string;
 
             if (startLineNo != finishLineNo) {
+                const startLine = await vim.call("getline", startLineNo) as string;
+                const finishLine = await vim.call("getline", finishLineNo) as string;
+
+                const updateStartLine = startLine.slice(0, startColNo - 1) + inputBracket + startLine.slice(startColNo - 1, startLine.length);
+                const updateFinishLine = finishLine.slice(0, finishColNo) + brackets[inputBracket] + finishLine.slice(finishColNo, finishLine.length);
+
+                await vim.call("setline", startLineNo, updateStartLine);
+                await vim.call("setline", finishLineNo, updateFinishLine);
                 return;
             }
 
