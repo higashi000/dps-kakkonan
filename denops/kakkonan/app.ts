@@ -1,4 +1,4 @@
-import { start } from "https://deno.land/x/denops_std@v0.2/mod.ts";
+import { main } from "https://deno.land/x/denops_std@v0.8/mod.ts";
 
 const brackets: { [name: string]: string} = {
     '(': ')',
@@ -17,7 +17,7 @@ const quotes: {[name: string]: string} = {
 
 const backQuote = '`';
 
-start(async (vim) => {
+main(async (vim) => {
     const getLineChar = async (diff: number): Promise<string> => {
         const cursorStr = await vim.call('getline', '.') as string;
 
