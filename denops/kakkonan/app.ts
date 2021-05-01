@@ -1,33 +1,7 @@
 import { main } from "https://deno.land/x/denops_std@v0.8/mod.ts";
-
-const brackets: { [name: string]: string } = {
-  "(": ")",
-  "{": "}",
-  "[": "]",
-  '"': '"',
-  "'": "'",
-  "`": "`",
-};
-
-const quotes: { [name: string]: string } = {
-  '"': '"',
-  "'": "'",
-  "`": "`",
-};
-
-const backQuote = "`";
+import { backQuote, brackets, getLineChar, quotes } from "./kakkonanMod/mod.ts";
 
 main(async ({ vim }) => {
-  const getLineChar = async (diff: number): Promise<string> => {
-    const cursorStr = await vim.call("getline", ".") as string;
-
-    const cursorCol = await vim.call("col", ".") as number;
-
-    const cursorChar = cursorStr.substr(cursorCol + diff, 1);
-
-    return cursorChar;
-  };
-
   vim.register({
     async kakkonanCompletion(inputBrackets: unknown): Promise<string> {
       if (typeof inputBrackets !== "string") {
@@ -36,7 +10,7 @@ main(async ({ vim }) => {
         );
       }
 
-      const cursorChar = await getLineChar(-1);
+      const cursorChar = await getLineChar(vim, -1);
 
       if (
         inputBrackets == '"' || inputBrackets == "'" || inputBrackets == "`"
@@ -60,7 +34,7 @@ main(async ({ vim }) => {
         );
       }
 
-      const cursorChar = await getLineChar(-1);
+      const cursorChar = await getLineChar(vim, -1);
 
       if (cursorChar == inputBracket) {
         return true;
@@ -70,8 +44,8 @@ main(async ({ vim }) => {
     },
 
     async kakkonanBackSpaceEnter(): Promise<boolean> {
-      const cursorRight = await getLineChar(-1);
-      const cursorChar = await getLineChar(-2);
+      const cursorRight = await getLineChar(vim, -1);
+      const cursorChar = await getLineChar(vim, -2);
 
       if (brackets[cursorChar] && brackets[cursorChar] == cursorRight) {
         return true;
