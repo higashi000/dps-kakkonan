@@ -168,7 +168,7 @@ main(async ({ vim }) => {
     },
   });
 
-  vim.load(new URL('./script/keybind.vim', import.meta.url));
+  await vim.load(new URL('./script/keybind.vim', import.meta.url));
 
   console.log("dps-kakkonan has loaded");
 });
