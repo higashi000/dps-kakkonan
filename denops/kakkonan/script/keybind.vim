@@ -15,5 +15,7 @@ inoremap <expr> <BS> denops#request("kakkonan", "kakkonanBackSpaceEnter", []) ==
 
 command! -range -nargs=1 KakkonanSurround :call denops#request("kakkonan", "kakkonanSurroundBrackets", [<f-args>])
 
+command! -range KakkonanDelete :call denops#request("kakkonan", "kakkonanDeleteBrackets", [])
+
 command! -range -nargs=1 KakkonanReplace :call denops#request("kakkonan", "kakkonanReplaceBrackets", [<f-args>])
 

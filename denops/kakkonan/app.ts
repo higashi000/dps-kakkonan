@@ -166,6 +166,44 @@ main(async ({ vim }) => {
       }
       return;
     },
+
+    async kakkonanDeleteBrackets(): Promise<void> {
+      await vim.execute("normal `<");
+
+      const startLineNo = await vim.call("line", ".") as number;
+      const startColNo = await vim.call("col", ".") as number;
+      const line = await vim.call("getline", startLineNo) as string;
+      const startBracket = line.slice(startColNo - 1, startColNo);
+
+      await vim.execute("normal `>");
+
+      const finishBracket = await getLineChar(vim, -1);
+      const finishLineNo = await vim.call("line", ".") as number;
+      const finishColNo = await vim.call("col", ".") as number;
+
+      if (brackets[startBracket] != finishBracket) {
+          return;
+      }
+
+      if (startLineNo != finishLineNo) {
+        const startLine = await vim.call("getline", startLineNo) as string;
+        const finishLine = await vim.call("getline", finishLineNo) as string;
+
+        const updateStartLine = startLine.slice(0, startColNo - 1) + startLine.slice(startColNo, startLine.length);
+        const updateFinishLine = finishLine.slice(0, finishColNo - 1) + finishLine.slice(finishColNo, finishLine.length);
+
+        await vim.call("setline", startLineNo, updateStartLine);
+        await vim.call("setline", finishLineNo, updateFinishLine);
+
+        return;
+      }
+
+      const deletedText = line.slice(0, startColNo - 1) + line.slice(startColNo, finishColNo - 1) + line.slice(finishColNo + 1, line.length);
+
+      await vim.call("setline", startLineNo, deletedText);
+
+      return;
+    }
   });
 
   await vim.load(new URL('./script/keybind.vim', import.meta.url));
