@@ -182,15 +182,17 @@ main(async ({ vim }) => {
       const finishColNo = await vim.call("col", ".") as number;
 
       if (brackets[startBracket] != finishBracket) {
-          return;
+        return;
       }
 
       if (startLineNo != finishLineNo) {
         const startLine = await vim.call("getline", startLineNo) as string;
         const finishLine = await vim.call("getline", finishLineNo) as string;
 
-        const updateStartLine = startLine.slice(0, startColNo - 1) + startLine.slice(startColNo, startLine.length);
-        const updateFinishLine = finishLine.slice(0, finishColNo - 1) + finishLine.slice(finishColNo, finishLine.length);
+        const updateStartLine = startLine.slice(0, startColNo - 1) +
+          startLine.slice(startColNo, startLine.length);
+        const updateFinishLine = finishLine.slice(0, finishColNo - 1) +
+          finishLine.slice(finishColNo, finishLine.length);
 
         await vim.call("setline", startLineNo, updateStartLine);
         await vim.call("setline", finishLineNo, updateFinishLine);
@@ -198,15 +200,17 @@ main(async ({ vim }) => {
         return;
       }
 
-      const deletedText = line.slice(0, startColNo - 1) + line.slice(startColNo, finishColNo - 1) + line.slice(finishColNo + 1, line.length);
+      const deletedText = line.slice(0, startColNo - 1) +
+        line.slice(startColNo, finishColNo - 1) +
+        line.slice(finishColNo + 1, line.length);
 
       await vim.call("setline", startLineNo, deletedText);
 
       return;
-    }
+    },
   });
 
-  await vim.load(new URL('./script/keybind.vim', import.meta.url));
+  await vim.load(new URL("./script/keybind.vim", import.meta.url));
 
   console.log("dps-kakkonan has loaded");
 });
