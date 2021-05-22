@@ -1,6 +1,6 @@
 # dps-kakkonan
-Brackets completion plugin, using the denops.vim.
-This plugin respect for [cohama/lexima.vim](https://github.com/cohama/lexima.vim) and [machakann/vim-sandwich](https://github.com/machakann/vim-sandwich).
+Brackets completion plugin, using the denops.vim.<br>
+This plugin respect for [cohama/lexima.vim](https://github.com/cohama/lexima.vim) and [machakann/vim-sandwich](https://github.com/machakann/vim-sandwich).<br>
 
 # Install
 dein.vim
