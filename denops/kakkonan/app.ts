@@ -197,17 +197,12 @@ main(async ({ vim }) => {
         await vim.call("setline", startLineNo, updateStartLine);
         await vim.call("setline", finishLineNo, updateFinishLine);
 
-          console.log("hoge");
-
         return;
       }
 
       const deletedText = line.slice(0, startColNo - 1) +
         line.slice(startColNo, finishColNo - 1) +
         line.slice(finishColNo, line.length);
-
-          console.log("poyo");
-      console.log(line.slice(finishColNo, line.length));
 
       await vim.call("setline", startLineNo, deletedText);
 
