@@ -120,6 +120,7 @@ main(async ({ vim }) => {
       let quoteCnt: number = 0;
 
       let lineNo = await vim.call("line", ".") as number;
+      const firstLineNo: number = lineNo;
       let colNo = await vim.call("col", ".") as number;
 
       const tmp = await vim.call("getline", lineNo) as string;
@@ -132,10 +133,14 @@ main(async ({ vim }) => {
       }
 
       let finishFlg: boolean = false;
+      let firstLine: boolean = true;
 
       while (!finishFlg) {
         const line = await vim.call("getline", lineNo) as string;
-        for (let i = colNo - 1; i < line.length; i++) {
+
+        const startCol = firstLine ? colNo - 1 : 0;
+
+        for (let i = startCol; i < line.length; i++) {
           if (!quotes[corsorChar]) {
             if (line[i] === corsorChar) {
               cnt++;
@@ -152,17 +157,39 @@ main(async ({ vim }) => {
             (!quotes[corsorChar] && cnt === 0) ||
             (quoteCnt === 2 && quotes[corsorChar])
           ) {
-            let updateLine = line.slice(0, colNo - 1) + inputBracket +
-              line.slice(colNo, i) + brackets[inputBracket] +
-              line.slice(i + 1, line.length);
+            if (firstLine) {
+              let updateLine = line.slice(0, colNo - 1) + inputBracket +
+                line.slice(colNo, i) + brackets[inputBracket] +
+                line.slice(i + 1, line.length);
 
-            await vim.call("setline", lineNo, updateLine);
-            finishFlg = true;
-            break;
+              await vim.call("setline", lineNo, updateLine);
+              finishFlg = true;
+              break;
+            } else {
+              const startLine = await vim.call(
+                "getline",
+                firstLineNo,
+              ) as string;
+              const finishLine = await vim.call("getline", lineNo) as string;
+
+              const updateStartLine = startLine.slice(0, colNo - 1) +
+                inputBracket +
+                startLine.slice(colNo, startLine.length);
+              const updateFinishLine = finishLine.slice(0, i - 1) +
+                brackets[inputBracket] +
+                finishLine.slice(i + 1, finishLine.length);
+
+              await vim.call("setline", firstLineNo, updateStartLine);
+              await vim.call("setline", lineNo, updateFinishLine);
+
+              finishFlg = true;
+              break;
+            }
           }
         }
 
         lineNo++;
+        firstLine = false;
       }
       return;
     },
