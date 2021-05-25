@@ -25,3 +25,7 @@ After, please execute `'<,'>KakkonanSurround $brackets`.<br>
 Select text in visual mode.<br>
 After, please execute `'<,'>KakkonanDelete`.<br>
 [![Image from Gyazo](https://i.gyazo.com/8fd7611abd5748bcdf5da53b443eacd3.gif)](https://gyazo.com/8fd7611abd5748bcdf5da53b443eacd3)
+
+## Replace brackets
+Execute `:KakkonanReplace $brackets` on top of opening bracket.<br>
+[![Image from Gyazo](https://i.gyazo.com/156df2a8b5b77ff5c75163b35f6dde56.gif)](https://gyazo.com/156df2a8b5b77ff5c75163b35f6dde56)
