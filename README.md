@@ -18,8 +18,19 @@ Please input some brackets in insert mode.<br>
 
 ## Surround text to brackets
 Select text in visual mode.<br>
-After, please execute `'<,'>KakkonanSurround $brackets`.<br>
-[![Image from Gyazo](https://i.gyazo.com/5a26d3728eab1dadf90b6c15a6aea632.gif)](https://gyazo.com/5a26d3728eab1dadf90b6c15a6aea632)
+After, please execute keybind that you set up.<br>
+example<br>
+```
+" dps-kakkonan surround text to backets example keymap
+vmap sr( <Plug>(dps_kakkonan_surround_parenthesis)
+vmap sr{ <Plug>(dps_kakkonan_surround_curly)
+vmap sr[ <Plug>(dps_kakkonan_surround_square)
+vmap sr" <Plug>(dps_kakkonan_surround_doublequote)
+vmap sr' <Plug>(dps_kakkonan_surround_singlequote)
+vmap sr` <Plug>(dps_kakkonan_surround_backquote)
+```
+demo<br>
+[![Image from Gyazo](https://i.gyazo.com/642cdff83f7767d16b35af9a208a751b.gif)](https://gyazo.com/642cdff83f7767d16b35af9a208a751b)
 
 ## Delete brackets
 Select text in visual mode.<br>
@@ -27,5 +38,16 @@ After, please execute `'<,'>KakkonanDelete`.<br>
 [![Image from Gyazo](https://i.gyazo.com/8fd7611abd5748bcdf5da53b443eacd3.gif)](https://gyazo.com/8fd7611abd5748bcdf5da53b443eacd3)
 
 ## Replace brackets
-Execute `:KakkonanReplace $brackets` on top of opening bracket.<br>
-[![Image from Gyazo](https://i.gyazo.com/156df2a8b5b77ff5c75163b35f6dde56.gif)](https://gyazo.com/156df2a8b5b77ff5c75163b35f6dde56)
+Please set your keymap.<br>
+example<br>
+```
+" dps-kakkonan replace brackets example keymap
+map rp( <Plug>(dps_kakkonan_replace_parenthesis)
+map rp{ <Plug>(dps_kakkonan_replace_curly)
+map rp[ <Plug>(dps_kakkonan_replace_square)
+map rp" <Plug>(dps_kakkonan_replace_doublequote)
+map rp' <Plug>(dps_kakkonan_replace_singlequote)
+map rp` <Plug>(dps_kakkonan_replace_backquote)
+```
+demo<br>
+[![Image from Gyazo](https://i.gyazo.com/9788368e06d751f4adc0b50958eec300.gif)](https://gyazo.com/9788368e06d751f4adc0b50958eec300)
