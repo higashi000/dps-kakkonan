@@ -116,6 +116,8 @@ main(async ({ vim }) => {
         );
       }
 
+      const fileLen = await vim.call("line", "$") as number;
+
       let cnt: number = 0;
       let quoteCnt: number = 0;
 
@@ -186,6 +188,10 @@ main(async ({ vim }) => {
               break;
             }
           }
+        }
+
+        if (lineNo === fileLen) {
+          break;
         }
 
         lineNo++;
