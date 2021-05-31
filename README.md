@@ -33,9 +33,8 @@ demo<br>
 [![Image from Gyazo](https://i.gyazo.com/642cdff83f7767d16b35af9a208a751b.gif)](https://gyazo.com/642cdff83f7767d16b35af9a208a751b)
 
 ## Delete brackets
-Select text in visual mode.<br>
-After, please execute `'<,'>KakkonanDelete`.<br>
-[![Image from Gyazo](https://i.gyazo.com/8fd7611abd5748bcdf5da53b443eacd3.gif)](https://gyazo.com/8fd7611abd5748bcdf5da53b443eacd3)
+Please execute `:KakkonanDelete` on top of brackets.
+[![Image from Gyazo](https://i.gyazo.com/4becea036dd2a037193cda74f3303203.gif)](https://gyazo.com/4becea036dd2a037193cda74f3303203)
 
 ## Replace brackets
 Please set your keymap.<br>
