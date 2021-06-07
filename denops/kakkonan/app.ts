@@ -248,7 +248,7 @@ main(async ({ vim }) => {
               const deletedText = line.slice(0, colNo - 1) +
                 line.slice(colNo, i) +
                 line.slice(i + 1, line.length);
-        
+
               await vim.call("setline", lineNo, deletedText);
               finishFlg = true;
               break;
@@ -259,10 +259,10 @@ main(async ({ vim }) => {
               ) as string;
               const finishLine = await vim.call("getline", lineNo) as string;
 
-                const updateStartLine = startLine.slice(0, colNo - 1) +
-                  startLine.slice(colNo, startLine.length);
-                const updateFinishLine = finishLine.slice(0, i) +
-                  finishLine.slice(i + 1, finishLine.length);
+              const updateStartLine = startLine.slice(0, colNo - 1) +
+                startLine.slice(colNo, startLine.length);
+              const updateFinishLine = finishLine.slice(0, i) +
+                finishLine.slice(i + 1, finishLine.length);
 
               await vim.call("setline", firstLineNo, updateStartLine);
               await vim.call("setline", lineNo, updateFinishLine);
