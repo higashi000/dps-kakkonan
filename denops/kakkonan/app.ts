@@ -1,6 +1,7 @@
 import { main } from "https://deno.land/x/denops_std@v0.10/mod.ts";
 import {
   backQuote,
+  backSpaceEnter,
   brackets,
   completion,
   escapeBrackets,
@@ -31,14 +32,7 @@ main(async ({ vim }) => {
     },
 
     async kakkonanBackSpaceEnter(): Promise<boolean> {
-      const cursorRight = await getLineChar(vim, -1);
-      const cursorChar = await getLineChar(vim, -2);
-
-      if (brackets[cursorChar] && brackets[cursorChar] == cursorRight) {
-        return true;
-      }
-
-      return false;
+      return await backSpaceEnter(vim);
     },
 
     async kakkonanSurroundBrackets(inputBracket: unknown): Promise<void> {
