@@ -6,8 +6,6 @@ import {
   completion,
   deleteBrackets,
   escapeBrackets,
-  getLineChar,
-  quotes,
   replaceBrackets,
   surroundBrackets,
 } from "./kakkonanMod/mod.ts";
