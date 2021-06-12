@@ -1,4 +1,4 @@
-import { main } from "https://deno.land/x/denops_std@v0.10/mod.ts";
+import { main } from "https://deno.land/x/denops_std@v0.14/mod.ts";
 import {
   backQuote,
   backSpaceEnter,
