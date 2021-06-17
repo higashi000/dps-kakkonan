@@ -1,5 +1,5 @@
 import { Vim } from "https://deno.land/x/denops_std@v0.14/mod.ts";
-import { backQuote, brackets } from "./brackets.ts";
+import { brackets } from "./brackets.ts";
 
 export async function surroundBrackets(
   vim: Vim,
