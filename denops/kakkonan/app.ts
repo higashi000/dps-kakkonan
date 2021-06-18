@@ -4,6 +4,7 @@ import {
   backSpaceEnter,
   brackets,
   completion,
+  customSurroundBrackets,
   deleteBrackets,
   escapeBrackets,
   replaceBrackets,
@@ -75,6 +76,17 @@ main(async ({ vim }) => {
     async kakkonanDeleteBrackets(): Promise<void> {
       await deleteBrackets(vim);
 
+      return;
+    },
+
+    async kakkonanCustomSurround(inputBracket: unknown): Promise<void> {
+      if (typeof inputBracket !== "string") {
+        throw new Error(
+          `'inputBrackets' attribute of 'kakkonanReplaceBrackets' in must be a string`,
+        );
+      }
+
+      await customSurroundBrackets(vim, inputBracket);
       return;
     },
   });
