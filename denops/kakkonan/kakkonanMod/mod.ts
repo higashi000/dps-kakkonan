@@ -6,3 +6,4 @@ export * from "./bscr.ts";
 export * from "./surround.ts";
 export * from "./replace.ts";
 export * from "./delete.ts";
+export * from "./customSurround.ts";

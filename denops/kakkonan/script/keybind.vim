@@ -28,3 +28,5 @@ noremap <silent> <Plug>(dps_kakkonan_replace_curly) :call denops#request("kakkon
 noremap <silent> <Plug>(dps_kakkonan_replace_doublequote) :call denops#request("kakkonan", "kakkonanReplaceBrackets", ['"'])<CR>
 noremap <silent> <Plug>(dps_kakkonan_replace_singlequote) :call denops#request("kakkonan", "kakkonanReplaceBrackets", ["'"])<CR>
 noremap <silent> <Plug>(dps_kakkonan_replace_backquote) :call denops#request("kakkonan", "kakkonanReplaceBrackets", ['`'])<CR>
+
+command! -range -nargs=1 KakkonanCustomSurround :call denops#request("kakkonan", "kakkonanCustomSurround", [<f-args>])

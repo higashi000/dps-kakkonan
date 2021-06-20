@@ -50,3 +50,25 @@ map rp` <Plug>(dps_kakkonan_replace_backquote)
 ```
 demo<br>
 [![Image from Gyazo](https://i.gyazo.com/9788368e06d751f4adc0b50958eec300.gif)](https://gyazo.com/9788368e06d751f4adc0b50958eec300)
+
+## Custom Surround Brackets
+If you want to surround it with something you like, you can use it.<br>
+This function is not supported `delete` and `replace`.<br>
+
+example settings<br>
+```
+let g:kakkonan_custom_brackets = {
+            \ "h1": {
+                \ "start": "<h1>",
+                \ "finish": "</h1>"
+            \ },
+            \ "script": {
+                \ "start": "<script>",
+                \ "finish": "</script>"
+            \ },
+            \ "<": {
+                \ "start": "<",
+                \ "finish": ">"
+            \ },
+            \ }
+```
