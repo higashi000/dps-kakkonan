@@ -72,3 +72,6 @@ let g:kakkonan_custom_brackets = {
             \ },
             \ }
 ```
+
+demo<br>
+[![Image from Gyazo](https://i.gyazo.com/c76dcb44178537a6b7f3698c6f26dd05.gif)](https://gyazo.com/c76dcb44178537a6b7f3698c6f26dd05)
