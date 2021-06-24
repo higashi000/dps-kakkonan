@@ -3,8 +3,9 @@ Brackets completion plugin, using the denops.vim.<br>
 This plugin respect for [cohama/lexima.vim](https://github.com/cohama/lexima.vim) and [machakann/vim-sandwich](https://github.com/machakann/vim-sandwich).<br>
 
 # Install
-Please install [deno](https://deno.land/).
-After, install plugins as follows.
+Please install [deno](https://deno.land/).<br>
+After, install plugins as follows.<br>
+
 dein.vim
 ```
 call dein#add('vim-denops/denops.vim')
