@@ -15,7 +15,7 @@ export async function completion(
   const cursorChar = await getLineChar(vim, -1);
 
   if (
-    inputBrackets == '"' || inputBrackets == "'" || inputBrackets == "`"
+      ['"', "'", "`"].includes(inputBrackets)
   ) {
     if (cursorChar == inputBrackets) {
       return "";
