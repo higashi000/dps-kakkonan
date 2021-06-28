@@ -1,7 +1,8 @@
-import { Vim } from "https://deno.land/x/denops_std@v0.14/mod.ts";
+import { Denops } from "https://deno.land/x/denops_std@v1.0.0-alpha.0/mod.ts";
+import { execute } from "https://deno.land/x/denops_std@v1.0.0-alpha.0/helper/mod.ts";
 
 export async function customSurroundBrackets(
-  vim: Vim,
+  vim: Denops,
   inputBracket: string,
 ): Promise<void> {
   const customBrackets = await vim.eval("g:kakkonan_custom_brackets");
@@ -10,12 +11,12 @@ export async function customSurroundBrackets(
     console.log("please set custom brackets command");
     return;
   }
-  await vim.execute("normal `<");
+  await execute(vim, "normal `<");
 
   const startLineNo = await vim.call("line", ".") as number;
   const startColNo = await vim.call("col", ".") as number;
 
-  await vim.execute("normal `>");
+  await execute(vim, "normal `>");
 
   const finishLineNo = await vim.call("line", ".") as number;
   const finishColNo = await vim.call("col", ".") as number;
