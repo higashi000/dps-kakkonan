@@ -1,9 +1,9 @@
-import { Vim } from "https://deno.land/x/denops_std@v0.14/mod.ts";
+import { Denops } from "https://deno.land/x/denops_std@v1.0.0-alpha.0/mod.ts";
 import { getLineChar } from "./getLineChar.ts";
 import { backQuote, brackets, quotes } from "./brackets.ts";
 
 export async function completion(
-  vim: Vim,
+  vim: Denops,
   inputBrackets: string,
 ): Promise<string> {
   if (typeof inputBrackets !== "string") {
@@ -15,7 +15,7 @@ export async function completion(
   const cursorChar = await getLineChar(vim, -1);
 
   if (
-      ['"', "'", "`"].includes(inputBrackets)
+    ['"', "'", "`"].includes(inputBrackets)
   ) {
     if (cursorChar == inputBrackets) {
       return "";

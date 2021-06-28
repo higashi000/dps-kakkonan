@@ -1,4 +1,5 @@
-import { main } from "https://deno.land/x/denops_std@v0.14/mod.ts";
+import { Denops } from "https://deno.land/x/denops_std@v1.0.0-alpha.0/mod.ts";
+import { load } from "https://deno.land/x/denops_std@v1.0.0-alpha.0/helper/mod.ts";
 import {
   backQuote,
   backSpaceEnter,
@@ -11,8 +12,8 @@ import {
   surroundBrackets,
 } from "./kakkonanMod/mod.ts";
 
-main(async ({ vim }) => {
-  vim.register({
+export async function main(denops: Denops): Promise<void> {
+  denops.dispatcher = {
     async kakkonanCompletion(inputBrackets: unknown): Promise<string> {
       if (typeof inputBrackets !== "string") {
         throw new Error(
@@ -20,7 +21,7 @@ main(async ({ vim }) => {
         );
       }
 
-      return await completion(vim, inputBrackets);
+      return await completion(denops, inputBrackets);
     },
 
     async kakkonanEscapeBrackets(inputBracket: unknown): Promise<boolean> {
@@ -30,11 +31,11 @@ main(async ({ vim }) => {
         );
       }
 
-      return await escapeBrackets(vim, inputBracket);
+      return await escapeBrackets(denops, inputBracket);
     },
 
     async kakkonanBackSpaceEnter(): Promise<boolean> {
-      return await backSpaceEnter(vim);
+      return await backSpaceEnter(denops);
     },
 
     async kakkonanSurroundBrackets(inputBracket: unknown): Promise<void> {
@@ -50,7 +51,7 @@ main(async ({ vim }) => {
         );
       }
 
-      await surroundBrackets(vim, inputBracket);
+      await surroundBrackets(denops, inputBracket);
 
       return;
     },
@@ -68,13 +69,13 @@ main(async ({ vim }) => {
         );
       }
 
-      await replaceBrackets(vim, inputBracket);
+      await replaceBrackets(denops, inputBracket);
 
       return;
     },
 
     async kakkonanDeleteBrackets(): Promise<void> {
-      await deleteBrackets(vim);
+      await deleteBrackets(denops);
 
       return;
     },
@@ -86,12 +87,12 @@ main(async ({ vim }) => {
         );
       }
 
-      await customSurroundBrackets(vim, inputBracket);
+      await customSurroundBrackets(denops, inputBracket);
       return;
     },
-  });
+  };
 
-  await vim.load(new URL("./script/keybind.vim", import.meta.url));
+  await load(denops, new URL("./script/keybind.vim", import.meta.url));
 
   console.log("dps-kakkonan has loaded");
-});
+}

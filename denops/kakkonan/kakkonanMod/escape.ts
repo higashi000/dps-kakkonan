@@ -1,9 +1,9 @@
-import { Vim } from "https://deno.land/x/denops_std@v0.14/mod.ts";
+import { Denops } from "https://deno.land/x/denops_std@v1.0.0-alpha.0/mod.ts";
 import { getLineChar } from "./getLineChar.ts";
 import { backQuote, brackets, quotes } from "./brackets.ts";
 
 export async function escapeBrackets(
-  vim: Vim,
+  vim: Denops,
   inputBracket: unknown,
 ): Promise<boolean> {
   const cursorChar = await getLineChar(vim, -1);
