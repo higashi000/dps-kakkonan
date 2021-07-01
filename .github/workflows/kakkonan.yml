@@ -1,0 +1,19 @@
+name: dps-kakkonan
+on: push
+
+env:
+  DENO_VERSION: 1.x
+
+jobs:
+  format:
+    runs-on: ubunut-latest
+
+    setup:
+      - uses: actions/checkout@v2
+      - uses: denoland/setup-deno@main
+        with:
+          deno-version ${{ env.DENO_VERSION }}
+      - name: Format
+        run: |
+          deno fmt --check
+
