@@ -9,7 +9,7 @@ jobs:
   format:
     runs-on: ubunut-latest
 
-    setup:
+    steps:
       - uses: actions/checkout@v2
       - uses: denoland/setup-deno@main
         with:
