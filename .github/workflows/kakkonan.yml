@@ -1,8 +1,9 @@
-name: dps-kakkonan
-on: push
+name: kakkonan
 
 env:
   DENO_VERSION: 1.x
+
+on: push
 
 jobs:
   format:
