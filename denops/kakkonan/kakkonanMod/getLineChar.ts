@@ -1,4 +1,4 @@
-import { Denops } from "https://deno.land/x/denops_std@v1.0.0-alpha.0/mod.ts";
+import { Denops } from "https://deno.land/x/denops_std@v2.0.0/mod.ts";
 
 export async function getLineChar(vim: Denops, diff: number): Promise<string> {
   const cursorStr = await vim.call("getline", ".") as string;

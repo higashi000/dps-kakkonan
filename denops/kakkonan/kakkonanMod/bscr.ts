@@ -1,4 +1,4 @@
-import { Vim } from "https://deno.land/x/denops_std@v0.14/mod.ts";
+import { Vim } from "https://deno.land/x/denops_std@v2.0.0/mod.ts";
 import { getLineChar } from "./getLineChar.ts";
 import { brackets } from "./brackets.ts";
 

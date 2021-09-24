@@ -1,4 +1,4 @@
-import { Denops } from "https://deno.land/x/denops_std@v1.0.0-alpha.0/mod.ts";
+import { Denops } from "https://deno.land/x/denops_std@v2.0.0/mod.ts";
 import { backQuote, brackets, quotes } from "./brackets.ts";
 
 export async function deleteBrackets(vim: Denops): Promise<void> {
