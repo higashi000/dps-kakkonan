@@ -10,7 +10,7 @@ import {
   escapeBrackets,
   replaceBrackets,
   surroundBrackets,
-} from "./kakkonanMod/mod.ts";
+} from "./mod/mod.ts";
 
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
