@@ -21,6 +21,7 @@ vnoremap <silent> <Plug>(dps_kakkonan_surround_singlequote) :call denops#request
 vnoremap <silent> <Plug>(dps_kakkonan_surround_backquote) :call denops#request("kakkonan", "kakkonanSurroundBrackets", ["`"])<CR>
 
 command! -range KakkonanDelete :call denops#request("kakkonan", "kakkonanDeleteBrackets", [])
+noremap <silent> <Plug>(dps_kakkonan_delete_brackets) :call denops#request("kakkonan", "kakkonanDeleteBrackets", [])<CR>
 
 noremap <silent> <Plug>(dps_kakkonan_replace_parenthesis) :call denops#request("kakkonan", "kakkonanReplaceBrackets", ['('])<CR>
 noremap <silent> <Plug>(dps_kakkonan_replace_square) :call denops#request("kakkonan", "kakkonanReplaceBrackets", ['['])<CR>
