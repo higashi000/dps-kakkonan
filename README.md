@@ -44,6 +44,7 @@ demo<br>
 ## Delete brackets
 
 Please execute `:KakkonanDelete` on top of brackets, or settings keybind.
+
 ```
 map <Leader>dk <Plug>(dps_kakkonan_delete_brackets)
 ```
