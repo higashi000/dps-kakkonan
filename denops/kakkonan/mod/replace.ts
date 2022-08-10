@@ -1,4 +1,4 @@
-import { Denops } from "https://deno.land/x/denops_std@v3.3.1/mod.ts";
+import { Denops } from "https://deno.land/x/denops_std@v3.8.1/mod.ts";
 import { backQuote, brackets, quotes } from "./brackets.ts";
 
 export async function replaceBrackets(
