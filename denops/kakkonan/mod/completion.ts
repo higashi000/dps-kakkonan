@@ -15,7 +15,7 @@ export async function completion(
   const cursorChar = await getLineChar(vim, -1);
 
   if (
-    ['"', "'", "`"].includes(inputBrackets)
+    ['"', "'"].includes(inputBrackets)
   ) {
     if (cursorChar == inputBrackets) {
       return "";
@@ -27,4 +27,20 @@ export async function completion(
   }
 
   return "";
+}
+
+export async function completionBackQuote(vim: Denops): Promise<string> {
+  const cursorChar = await getLineChar(vim, -1);
+  if (cursorChar === "`") {
+    return "";
+  }
+
+  const line = await vim.call("getline", ".");
+  const re = /^(``)$/g;
+  const isCodeBlock = re.test(line);
+
+  if (isCodeBlock) {
+    return "```";
+  }
+  return "``";
 }

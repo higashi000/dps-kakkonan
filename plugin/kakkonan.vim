@@ -1,9 +1,18 @@
+if exists('g:loaded_kakkonan')
+  finish
+endif
+
+let g:loaded_kakkonan = 1
+
+let s:save_cpo = &cpo
+set cpo&vim
+
 inoremap <expr> ( denops#request("kakkonan", "kakkonanCompletion", ['(']) . "\<left>"
 inoremap <expr> { denops#request("kakkonan", "kakkonanCompletion", ['{']) . "\<left>"
 inoremap <expr> [ denops#request("kakkonan", "kakkonanCompletion", ['[']) . "\<left>"
 inoremap <expr> " denops#request("kakkonan", "kakkonanCompletion", ['"']) != "" ? '""' . "\<left>" : "\<right>"
 inoremap <expr> ' denops#request("kakkonan", "kakkonanCompletion", ["'"]) != "" ? "''" . "\<left>" : "\<right>"
-inoremap <expr> ` denops#request("kakkonan", "kakkonanCompletion", ['`']) != "" ? '``' . "\<left>" : "\<right>"
+inoremap <expr> ` kakkonan#completionBackQuote()
 
 inoremap <expr> ) denops#request("kakkonan", "kakkonanEscapeBrackets", [')']) == v:false ? ")" : "\<right>"
 inoremap <expr> } denops#request("kakkonan", "kakkonanEscapeBrackets", ['}']) == v:false ? "}" : "\<right>"
@@ -31,3 +40,6 @@ noremap <silent> <Plug>(dps_kakkonan_replace_singlequote) :call denops#request("
 noremap <silent> <Plug>(dps_kakkonan_replace_backquote) :call denops#request("kakkonan", "kakkonanReplaceBrackets", ['`'])<CR>
 
 command! -range -nargs=1 KakkonanCustomSurround :call denops#request("kakkonan", "kakkonanCustomSurround", [<f-args>])
+
+let &cpo = s:save_cpo
+unlet s:save_cpo

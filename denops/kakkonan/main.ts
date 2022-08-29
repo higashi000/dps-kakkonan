@@ -5,6 +5,7 @@ import {
   backSpaceEnter,
   brackets,
   completion,
+  completionBackQuote,
   customSurroundBrackets,
   deleteBrackets,
   escapeBrackets,
@@ -22,6 +23,10 @@ export async function main(denops: Denops): Promise<void> {
       }
 
       return await completion(denops, inputBrackets);
+    },
+
+    async kakkonanCompletionBackQuote(): Promise<string> {
+      return await completionBackQuote(denops);
     },
 
     async kakkonanEscapeBrackets(inputBracket: unknown): Promise<boolean> {
