@@ -97,7 +97,5 @@ export async function main(denops: Denops): Promise<void> {
     },
   };
 
-  await load(denops, new URL("./script/keybind.vim", import.meta.url));
-
   console.log("dps-kakkonan has loaded");
 }

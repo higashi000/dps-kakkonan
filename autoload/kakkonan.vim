@@ -2,9 +2,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function! kakkonan#completionBackQuote() abort
-  echo 'hgoehgeo'
   let s:completionResult = denops#request("kakkonan", "kakkonanCompletionBackQuote", [])
-  echo 'hgoehgeo'
 
   if s:completionResult == ''
     return "\<right>"

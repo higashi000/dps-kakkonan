@@ -8,13 +8,48 @@ export async function surroundBrackets(
 ): Promise<void> {
   await execute(vim, "normal `<");
 
+  let startColNo: number;
+  let finishColNo: number;
+
+  if (await vim.call("has", "nvim")) {
+    const line = await vim.call("getline", ".") as string;
+    const pos = await vim.call("getpos", ".") as number[];
+    const col = await vim.call("charidx", line, pos[2]);
+    const byteCol = await vim.call("byteidx", line, col);
+
+    if (byteCol === pos[2]) {
+      startColNo = col;
+    } else {
+      startColNo = col + 1;
+    }
+  } else {
+    const pos = await vim.call("getcharpos", ".");
+
+    startColNo = pos[2] + 1;
+  }
+
   const startLineNo = await vim.call("line", ".") as number;
-  const startColNo = await vim.call("col", ".") as number;
 
   await execute(vim, "normal `>");
 
   const finishLineNo = await vim.call("line", ".") as number;
-  const finishColNo = await vim.call("col", ".") as number;
+
+  if (await vim.call("has", "nvim")) {
+    const line = await vim.call("getline", ".") as string;
+    const pos = await vim.call("getpos", ".") as number[];
+    const col = await vim.call("charidx", line, pos[2]);
+    const byteCol = await vim.call("byteidx", line, col);
+
+    if (byteCol === pos[2] || byteCol === -1) {
+      finishColNo = col;
+    } else {
+      finishColNo = col + 1;
+    }
+  } else {
+    const pos = await vim.call("getcharpos", ".");
+
+    finishColNo = pos[2] + 1;
+  }
 
   const line = await vim.call("getline", ".") as string;
 
