@@ -33,12 +33,16 @@ export async function surroundBrackets(
   await execute(vim, "normal `>");
 
   const finishLineNo = await vim.call("line", ".") as number;
+  let isEnd = false;
 
   if (await vim.call("has", "nvim")) {
     const line = await vim.call("getline", ".") as string;
     const pos = await vim.call("getpos", ".") as number[];
     const col = await vim.call("charidx", line, pos[2]);
     const byteCol = await vim.call("byteidx", line, col);
+    if (col === -1) {
+      isEnd = true;
+    }
 
     if (byteCol === pos[2] || byteCol === -1) {
       finishColNo = col;
@@ -53,6 +57,8 @@ export async function surroundBrackets(
 
   const line = await vim.call("getline", ".") as string;
 
+  // 複数行を一気に囲もうとするとバグる
+  // TODO: 原因調査
   if (startLineNo != finishLineNo) {
     const startLine = await vim.call("getline", startLineNo) as string;
     const finishLine = await vim.call("getline", finishLineNo) as string;
@@ -68,10 +74,15 @@ export async function surroundBrackets(
     return;
   }
 
-  const surroundText = line.slice(0, startColNo - 1) + inputBracket +
-    line.slice(startColNo - 1, finishColNo) +
-    brackets[inputBracket] + line.slice(finishColNo, line.length);
-
+  let surroundText = '';
+  if (!isEnd) {
+    surroundText = line.slice(0, startColNo - 1) + inputBracket +
+        line.slice(startColNo - 1, finishColNo) +
+        brackets[inputBracket] + line.slice(finishColNo, line.length);
+  } else {
+    surroundText = line.slice(0, startColNo - 1) + inputBracket +
+        line.slice(startColNo - 1, line.length) + brackets[inputBracket];
+  }
   await vim.call("setline", startLineNo, surroundText);
 
   return;
