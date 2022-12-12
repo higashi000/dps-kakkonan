@@ -9,8 +9,6 @@ export async function surroundBrackets(
   await execute(vim, "normal `<");
 
   let startColNo: number;
-  let finishColNo: number;
-
   if (await vim.call("has", "nvim")) {
     const line = await vim.call("getline", ".") as string;
     const pos = await vim.call("getpos", ".") as number[];
@@ -35,25 +33,9 @@ export async function surroundBrackets(
   const finishLineNo = await vim.call("line", ".") as number;
   let isEnd = false;
 
-  if (await vim.call("has", "nvim")) {
-    const line = await vim.call("getline", ".") as string;
-    const pos = await vim.call("getpos", ".") as number[];
-    const col = await vim.call("charidx", line, pos[2]);
-    const byteCol = await vim.call("byteidx", line, col);
-    if (col === -1) {
-      isEnd = true;
-    }
+  const pos = await vim.call("getcharpos", ".");
 
-    if (byteCol === pos[2] || byteCol === -1) {
-      finishColNo = col;
-    } else {
-      finishColNo = col + 1;
-    }
-  } else {
-    const pos = await vim.call("getcharpos", ".");
-
-    finishColNo = pos[2] + 1;
-  }
+  const finishColNo = pos[2];
 
   const line = await vim.call("getline", ".") as string;
 
@@ -74,14 +56,14 @@ export async function surroundBrackets(
     return;
   }
 
-  let surroundText = '';
+  let surroundText = "";
   if (!isEnd) {
     surroundText = line.slice(0, startColNo - 1) + inputBracket +
-        line.slice(startColNo - 1, finishColNo) +
-        brackets[inputBracket] + line.slice(finishColNo, line.length);
+      line.slice(startColNo - 1, finishColNo) +
+      brackets[inputBracket] + line.slice(finishColNo, line.length);
   } else {
     surroundText = line.slice(0, startColNo - 1) + inputBracket +
-        line.slice(startColNo - 1, line.length) + brackets[inputBracket];
+      line.slice(startColNo - 1, line.length) + brackets[inputBracket];
   }
   await vim.call("setline", startLineNo, surroundText);
 
