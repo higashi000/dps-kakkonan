@@ -1,5 +1,5 @@
-import { Denops } from "https://deno.land/x/denops_std@v7.0.2/mod.ts";
-import { load } from "https://deno.land/x/denops_std@v7.0.2/helper/mod.ts";
+import type { Entrypoint, Denops, load } from "jsr:@denops/std@7.1.1";
+import type { load } from "jsr:@denops/std@7.1.1/helper";
 import {
   backQuote,
   backSpaceEnter,
@@ -13,7 +13,7 @@ import {
   surroundBrackets,
 } from "./mod/mod.ts";
 
-export async function main(denops: Denops): Promise<void> {
+export const main: Entrypoint = (denops: Denops) => {
   denops.dispatcher = {
     async kakkonanCompletion(inputBrackets: unknown): Promise<string> {
       if (typeof inputBrackets !== "string") {

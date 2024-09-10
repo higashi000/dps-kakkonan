@@ -1,5 +1,5 @@
-import { Denops } from "https://deno.land/x/denops_std@v7.0.2/mod.ts";
-import { execute } from "https://deno.land/x/denops_std@v7.0.2/helper/mod.ts";
+import type { Denops } from "jsr:@denops/std@7.1.1";
+import { execute } from "jsr:@denops/std@7.1.1/helper";
 
 export async function customSurroundBrackets(
   vim: Denops,

@@ -1,4 +1,4 @@
-import { Denops } from "https://deno.land/x/denops_std@v7.0.2/mod.ts";
+import type { Denops } from "jsr:@denops/std@7.1.1";
 import { getLineChar } from "./getLineChar.ts";
 import { backQuote, brackets, quotes } from "./brackets.ts";
 
