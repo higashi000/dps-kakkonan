@@ -1,11 +1,12 @@
-import { Denops } from "https://deno.land/x/denops_std@v3.8.1/mod.ts";
-import { execute } from "https://deno.land/x/denops_std@v3.8.1/helper/mod.ts";
+import { Denops } from "https://deno.land/x/denops_std@v7.0.2/mod.ts";
+import { execute } from "https://deno.land/x/denops_std@v7.0.2/helper/mod.ts";
 import { brackets } from "./brackets.ts";
 
 export async function surroundBrackets(
   vim: Denops,
   inputBracket: string,
 ): Promise<void> {
+  let a = 1;
   await execute(vim, "normal `<");
 
   let startColNo: number;
@@ -41,12 +42,15 @@ export async function surroundBrackets(
 
   // 複数行を一気に囲もうとするとバグる
   // TODO: 原因調査
-  if (startLineNo != finishLineNo) {
+  if (startLineNo !== finishLineNo) {
     const startLine = await vim.call("getline", startLineNo) as string;
     const finishLine = await vim.call("getline", finishLineNo) as string;
 
     const updateStartLine = startLine.slice(0, startColNo - 1) +
       inputBracket + startLine.slice(startColNo - 1, startLine.length);
+    console.log(updateStartLine);
+    console.log(a);
+    a++;
     const updateFinishLine = finishLine.slice(0, finishColNo) +
       brackets[inputBracket] +
       finishLine.slice(finishColNo, finishLine.length);
