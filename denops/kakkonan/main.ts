@@ -1,4 +1,4 @@
-import type { Entrypoint, Denops, load } from "jsr:@denops/std@7.1.1";
+import type { Denops, Entrypoint, load } from "jsr:@denops/std@7.1.1";
 import type { load } from "jsr:@denops/std@7.1.1/helper";
 import {
   backQuote,
@@ -98,4 +98,4 @@ export const main: Entrypoint = (denops: Denops) => {
   };
 
   console.log("dps-kakkonan has loaded");
-}
+};
